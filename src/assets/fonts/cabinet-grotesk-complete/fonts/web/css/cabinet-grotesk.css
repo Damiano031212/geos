@@ -1,0 +1,110 @@
+/**
+* @license
+*
+* Font Family: Cabinet Grotesk
+* Designed by: ITF
+* URL: https://www.fontshare.com/fonts/cabinet-grotesk
+* © 2026 Indian Type Foundry
+*
+* Cabinet Grotesk Thin 
+* Cabinet Grotesk Extralight 
+* Cabinet Grotesk Light 
+* Cabinet Grotesk Regular 
+* Cabinet Grotesk Medium 
+* Cabinet Grotesk Bold 
+* Cabinet Grotesk Extrabold 
+* Cabinet Grotesk Black 
+* Cabinet Grotesk Variable (Variable font)
+
+*
+*/
+@font-face {
+  font-family: 'CabinetGrotesk-Thin';
+  src: url('../fonts/cabinet-grotesk-thin.woff2') format('woff2'),
+       url('../fonts/cabinet-grotesk-thin.woff') format('woff'),
+       url('../fonts/cabinet-grotesk-thin.ttf') format('truetype');
+  font-weight: 100;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CabinetGrotesk-Extralight';
+  src: url('../fonts/cabinet-grotesk-extralight.woff2') format('woff2'),
+       url('../fonts/cabinet-grotesk-extralight.woff') format('woff'),
+       url('../fonts/cabinet-grotesk-extralight.ttf') format('truetype');
+  font-weight: 200;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CabinetGrotesk-Light';
+  src: url('../fonts/cabinet-grotesk-light.woff2') format('woff2'),
+       url('../fonts/cabinet-grotesk-light.woff') format('woff'),
+       url('../fonts/cabinet-grotesk-light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CabinetGrotesk-Regular';
+  src: url('../fonts/cabinet-grotesk-regular.woff2') format('woff2'),
+       url('../fonts/cabinet-grotesk-regular.woff') format('woff'),
+       url('../fonts/cabinet-grotesk-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CabinetGrotesk-Medium';
+  src: url('../fonts/cabinet-grotesk-medium.woff2') format('woff2'),
+       url('../fonts/cabinet-grotesk-medium.woff') format('woff'),
+       url('../fonts/cabinet-grotesk-medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CabinetGrotesk-Bold';
+  src: url('../fonts/cabinet-grotesk-bold.woff2') format('woff2'),
+       url('../fonts/cabinet-grotesk-bold.woff') format('woff'),
+       url('../fonts/cabinet-grotesk-bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CabinetGrotesk-Extrabold';
+  src: url('../fonts/cabinet-grotesk-extrabold.woff2') format('woff2'),
+       url('../fonts/cabinet-grotesk-extrabold.woff') format('woff'),
+       url('../fonts/cabinet-grotesk-extrabold.ttf') format('truetype');
+  font-weight: 800;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CabinetGrotesk-Black';
+  src: url('../fonts/cabinet-grotesk-black.woff2') format('woff2'),
+       url('../fonts/cabinet-grotesk-black.woff') format('woff'),
+       url('../fonts/cabinet-grotesk-black.ttf') format('truetype');
+  font-weight: 900;
+  font-display: swap;
+  font-style: normal;
+}
+/**
+* This is a variable font
+* You can control variable axes as shown below:
+* font-variation-settings: wght 900.0;
+*
+* available axes:
+'wght' (range from 100.0 to 900.0
+*/
+@font-face {
+  font-family: 'CabinetGrotesk-Variable';
+  src: url('../fonts/cabinet-grotesk-variable.woff2') format('woff2'),
+       url('../fonts/cabinet-grotesk-variable.woff') format('woff'),
+       url('../fonts/cabinet-grotesk-variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
