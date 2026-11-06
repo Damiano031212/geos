@@ -1,11 +1,14 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
-// TODO(geos): `site` (dominio) e adapter (Vercel o Cloudflare Pages) non sono ancora decisi.
+const isGitHubActions = process.env.GITHUB_ACTIONS === 'true';
+
 export default defineConfig({
+  site: 'https://Damiano031212.github.io',
+  // GitHub Pages serves this project from /geos; local development stays at /.
+  base: isGitHubActions ? '/geos' : '/',
   output: 'static',
   // Solo per `astro dev` e `astro preview`: permette di aprirli da host esterni (es. tunnel ngrok).
-  // Non influisce sul sito pubblicato.
   server: { allowedHosts: true },
   vite: {
     plugins: [tailwindcss()],
