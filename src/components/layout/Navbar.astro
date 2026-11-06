@@ -1,0 +1,61 @@
+---
+/**
+ * Navbar a pill flottante. Desktop (≥ 1024): logo, link, divisore, CTA in riga.
+ * Mobile: logo + hamburger; aperta, la stessa pill si espande verso il basso.
+ * Si nasconde allo scroll verso il basso (src/scripts/navbar.ts).
+ */
+import logoRaw from '../../assets/logo/geos-logo.svg?raw';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { nav } from '../../content/copy.it';
+
+// Logo inline (non <img>) per poter animare la sparkle in hover (animations.css).
+// La sparkle è il secondo <path> (riempimento pieno #133051): le si aggiunge la classe `logo__sparkle`.
+const logoSvg = logoRaw
+  .replace('<svg ', '<svg class="logo" aria-hidden="true" focusable="false" ')
+  .replace(/<path d="M66\.2197/, '<path class="logo__sparkle" d="M66.2197');
+---
+
+<header class="navbar" data-navbar>
+  <nav class="navbar__pill" aria-label={nav.label}>
+    <div class="navbar__bar">
+      <a href="/" class="navbar__logo" aria-label={nav.logoAlt}>
+        <Fragment set:html={logoSvg} />
+      </a>
+      <button
+        type="button"
+        class="navbar__toggle"
+        aria-expanded="false"
+        aria-controls="menu-principale"
+        aria-label={nav.openMenu}
+        data-label-open={nav.openMenu}
+        data-label-close={nav.closeMenu}
+        data-navbar-toggle
+      >
+        <Icon name="list" class="navbar__icon navbar__icon--open" />
+        <Icon name="x" class="navbar__icon navbar__icon--close" />
+      </button>
+    </div>
+    <div class="navbar__menu" id="menu-principale">
+      <div class="navbar__menu-inner">
+        <ul class="navbar__links">
+          {nav.links.map((l) => (
+            <li>
+              <a href={l.href} class="navbar__link geo-body-md">
+                <span class="navbar__link-text">{l.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <span class="navbar__divider" aria-hidden="true"></span>
+        <Button variant="navbar" href={nav.cta.href} class="navbar__cta">
+          {nav.cta.label}
+        </Button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  import '../../scripts/navbar';
+</script>

@@ -1,0 +1,89 @@
+---
+/** Dimensione Azienda: `−`, valore, `+`. `input type="number"` con due pulsanti etichettati. */
+interface Props {
+  id: string;
+  name?: string;
+  label: string;
+  min?: number;
+  value?: number;
+  required?: boolean;
+  disabled?: boolean;
+  class?: string;
+}
+// TODO(geos): valore iniziale e minimo da confermare (proposta 1 / 1).
+const {
+  id,
+  name = id,
+  label,
+  min = 1,
+  value = 1,
+  required = false,
+  disabled = false,
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={['field', className]}>
+  <label for={id} class="field__label geo-body-md-bold">
+    {label}
+    {required && (
+      <span class="field__required" aria-hidden="true">
+        {' '}
+        *
+      </span>
+    )}
+  </label>
+  <div class:list={['stepper', disabled && 'stepper--disabled']} data-stepper>
+    <button
+      type="button"
+      class="stepper__btn"
+      data-step="-1"
+      aria-label="Diminuisci"
+      disabled={disabled}
+    >
+      −
+    </button>
+    <input
+      {id}
+      {name}
+      type="number"
+      inputmode="numeric"
+      min={min}
+      {value}
+      required={required}
+      disabled={disabled}
+      class="stepper__value"
+    />
+    <button
+      type="button"
+      class="stepper__btn"
+      data-step="1"
+      aria-label="Aumenta"
+      disabled={disabled}
+    >
+      +
+    </button>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-stepper]').forEach((root) => {
+    const input = root.querySelector<HTMLInputElement>('input');
+    const [minus, plus] = root.querySelectorAll<HTMLButtonElement>('[data-step]');
+    if (!input || !minus || !plus) return;
+
+    const sync = () => {
+      const min = input.min === '' ? -Infinity : Number(input.min);
+      minus.disabled = input.disabled || Number(input.value) <= min;
+    };
+    root.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-step]');
+      if (!btn || btn.disabled) return;
+      if (btn.dataset.step === '1') input.stepUp();
+      else input.stepDown();
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    input.addEventListener('input', sync);
+    sync();
+  });
+</script>

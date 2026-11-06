@@ -1,0 +1,131 @@
+---
+import { Image } from 'astro:assets';
+import banner from '../../assets/img/piani-prezzi-chiari.webp';
+import Container from '../layout/Container.astro';
+import Section from '../layout/Section.astro';
+import Tag from '../ui/Tag.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import SelectPill from '../ui/SelectPill.astro';
+import { plans, yearly } from '../../content/plans';
+import { plansIntro as t } from '../../content/sections.it';
+
+// TODO(geos): numero/URL WhatsApp non esiste (PUBLIC_WHATSAPP_URL). Finché manca, il pulsante si
+// vede in ogni build ma non è un link (segnaposto); da rimuovere quando arriva il numero.
+const whatsapp = import.meta.env.PUBLIC_WHATSAPP_URL as string | undefined;
+const showPlaceholder = true;
+if (!whatsapp) {
+  console.warn(
+    '[geos] PUBLIC_WHATSAPP_URL non definita: il link WhatsApp dei piani non viene reso.',
+  );
+}
+
+const fmt = (n: number) => String(n);
+---
+
+<Section id="piani" class="plans" labelledby="piani-titolo">
+  <Container cols={8}>
+    <h2 id="piani-titolo" class="geo-h2 plans__title" data-reveal>
+      {t.title}
+    </h2>
+    <ul class="plans__grid">
+      {plans.map((p) => {
+        const current = p.options.find((o) => o.users === p.defaultUsers) ?? p.options[0];
+        return (
+          <li
+            class:list={['plan', p.popular && 'plan--popular']}
+            data-plan
+            data-reveal
+            data-options={JSON.stringify(p.options)}
+          >
+            {p.popular && (
+              <span class="plan__tab geo-label-lg" aria-hidden="true">
+                {t.popular}
+              </span>
+            )}
+            <div class="plan__head">
+              <h3 class="geo-h3">{p.name}</h3>
+              {p.popular && <span class="sr-only">({t.popular})</span>}
+              {p.badge && <Tag variant="outline">{p.badge}</Tag>}
+            </div>
+            <p class="geo-body-lg plan__desc">{p.description}</p>
+            <div class="plan__price" aria-live="polite" aria-atomic="true">
+              <p class="plan__monthly">
+                <span class="plan__amount geo-h2" data-monthly>
+                  {fmt(current.monthly)}€
+                </span>
+                <span class="geo-body-huge">/mese</span>
+              </p>
+              <p class="geo-body-lg plan__yearly">
+                <span data-yearly>{fmt(yearly(current.monthly))}€</span> all’anno
+              </p>
+            </div>
+            <div class="plan__select">
+              {p.options.length > 1 && (
+                <SelectPill
+                  id={`utenti-${p.id}`}
+                  label={`${t.usersLabel}, piano ${p.name}`}
+                  value={String(p.defaultUsers)}
+                  options={p.options.map((o) => ({
+                    value: String(o.users),
+                    label: `${o.users} Utenti`,
+                  }))}
+                />
+              )}
+            </div>
+            <div class="plan__extras">
+              <p class="geo-h4">{t.extras.title}</p>
+              <p class="geo-body-md">
+                {t.extras.site.label} <strong>{t.extras.site.price}</strong>
+                {t.extras.site.unit}
+              </p>
+              <p class="geo-body-md">
+                {t.extras.activation.label} <strong>{t.extras.activation.price}</strong>{' '}
+                {t.extras.activation.mark}
+              </p>
+            </div>
+            <Button href="#demo" class="plan__cta">
+              {t.cta}
+            </Button>
+            <div class="plan__wa">
+              {whatsapp ? (
+                <a href={whatsapp} class="plan__wa-link geo-body-md">
+                  <Icon name="chat-circle-text-20" />
+                  <span>{t.whatsapp}</span>
+                </a>
+              ) : (
+                showPlaceholder && (
+                  <span class="plan__wa-link geo-body-md" aria-disabled="true">
+                    <Icon name="chat-circle-text-20" />
+                    <span>{t.whatsapp}</span>
+                  </span>
+                )
+              )}
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+    <section class="price-banner" aria-labelledby="prezzi-chiari" data-reveal="scale">
+      <Image
+        src={banner}
+        alt={t.banner.imageAlt}
+        class="price-banner__img"
+        widths={[359, 718]}
+        sizes="(min-width: 1024px) 30vw, 85vw"
+        loading="lazy"
+        decoding="async"
+      />
+      <h3 id="prezzi-chiari" class="geo-h3 price-banner__title">
+        {t.banner.title}
+      </h3>
+      <p class="geo-body-lg price-banner__text">
+        {t.banner.parts.map((s) => (s.strong ? <strong>{s.text}</strong> : s.text))}
+      </p>
+    </section>
+  </Container>
+</Section>
+
+<script>
+  import '../../scripts/plans';
+</script>

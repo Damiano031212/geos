@@ -1,0 +1,17 @@
+---
+/** Cerchi sovrapposti con iniziali + "+12". Puramente decorativo (aria-hidden). */
+interface Props {
+  initials?: string[];
+  more?: string;
+  class?: string;
+}
+// TODO(geos): iniziali e "+12" sono quelli del design, non dati reali.
+const { initials = ['AM', 'LG', 'MR'], more = '+12', class: className } = Astro.props;
+---
+
+<span class:list={['avatar-stack', className]} aria-hidden="true">
+  {initials.map((i) => (
+    <span class="avatar">{i}</span>
+  ))}
+  <span class="avatar avatar--more">{more}</span>
+</span>

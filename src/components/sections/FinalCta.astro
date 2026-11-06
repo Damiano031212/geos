@@ -1,0 +1,22 @@
+---
+/** CTA finale (sezione 9): riquadro a 12 colonne con bordo sottile, allineato a sinistra. */
+import Container from '../layout/Container.astro';
+import Chip from '../ui/Chip.astro';
+import Button from '../ui/Button.astro';
+import { finalCta } from '../../content/copy.it';
+---
+
+<section id="cta" class="section final-cta" aria-labelledby="cta-titolo">
+  <Container cols={12}>
+    <div class="final-cta__box" data-reveal="scale">
+      <Chip>{finalCta.chip}</Chip>
+      <h2 id="cta-titolo" class="geo-title-huge-tight final-cta__title">
+        {finalCta.title}
+      </h2>
+      <p class="geo-body-lg">{finalCta.text}</p>
+      <Button icon href={finalCta.cta.href}>
+        {finalCta.cta.label}
+      </Button>
+    </div>
+  </Container>
+</section>

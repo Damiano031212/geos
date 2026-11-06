@@ -1,0 +1,12 @@
+---
+/** Pill di etichetta in alto nelle card. `white` su fondi scuri/foto, `tertiary` su fondi chiari. */
+interface Props {
+  variant?: 'white' | 'tertiary' | 'secondary' | 'dark' | 'outline';
+  class?: string;
+}
+const { variant = 'white', class: className } = Astro.props;
+---
+
+<span class:list={['tag', variant !== 'white' && `tag--${variant}`, className]}>
+  <slot />
+</span>

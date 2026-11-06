@@ -1,0 +1,43 @@
+---
+/** "Come funziona Geos": tab da 1024 in su, accordion sotto. Stessi dati (src/content/tabs.ts). */
+import { Image } from 'astro:assets';
+import bg from '../../assets/img/come-funziona-bg.webp';
+import Container from '../layout/Container.astro';
+import Section from '../layout/Section.astro';
+import Tabs from '../ui/Tabs.astro';
+import Accordion from '../ui/Accordion.astro';
+import { tabs } from '../../content/tabs';
+import { howItWorks as t } from '../../content/sections.it';
+---
+
+<Section id="come-funziona" class="how" labelledby="come-titolo">
+  <Container cols={12}>
+    <div class="how__frame">
+      <Image
+        src={bg}
+        alt=""
+        class="how__bg"
+        widths={[928, 1856]}
+        sizes="100vw"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="how__shade" aria-hidden="true"></div>
+      <div class="how__content">
+        <h2 id="come-titolo" class="geo-h2 how__title" data-reveal>
+          {t.title}
+        </h2>
+        <div class="how__tabs" data-reveal>
+          <Tabs items={tabs} label={t.tablistLabel} caption={t.label} />
+        </div>
+        <div class="how__accordion">
+          <Accordion items={tabs} />
+        </div>
+      </div>
+    </div>
+  </Container>
+</Section>
+
+<script>
+  import '../../scripts/how-it-works';
+</script>

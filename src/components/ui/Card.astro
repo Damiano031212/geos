@@ -1,0 +1,16 @@
+---
+/**
+ * Contenitore con raggio ampio. Varianti per sfondo: photo (la foto la mette la sezione, con overlay),
+ * blue (gradiente), tertiary (bordo sottile), white (ombra, piani), sky (gradiente chiaro).
+ */
+interface Props {
+  variant?: 'photo' | 'blue' | 'tertiary' | 'mist' | 'white' | 'sky' | 'suite';
+  as?: 'div' | 'article' | 'li' | 'section';
+  class?: string;
+}
+const { variant = 'tertiary', as: Tag = 'div', class: className } = Astro.props;
+---
+
+<Tag class:list={['card', `card--${variant}`, className]}>
+  <slot />
+</Tag>

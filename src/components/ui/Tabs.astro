@@ -1,0 +1,66 @@
+---
+/** Tab desktop di "Come funziona" (pattern tablist/tab/tabpanel). Dati da src/content/tabs.ts. */
+import { Image } from 'astro:assets';
+import Tag from './Tag.astro';
+import type { TabItem } from '../../content/tabs';
+
+interface Props {
+  items: TabItem[];
+  label: string;
+  caption: string;
+}
+const { items, label, caption } = Astro.props;
+---
+
+<div class="tabs" data-tabs>
+  <div class="tabs__bar">
+    <div class="tabs__list" role="tablist" aria-label={label}>
+      {items.map((it, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${it.id}`}
+          class="tabs__tab geo-tab-title"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`panel-${it.id}`}
+          tabindex={i === 0 ? 0 : -1}
+        >
+          {it.label}
+        </button>
+      ))}
+    </div>
+    <span class="tabs__caption geo-tab-title">{caption}</span>
+  </div>
+  <div class="tabs__panels">
+    {items.map((it, i) => (
+      <div
+        role="tabpanel"
+        id={`panel-${it.id}`}
+        class="tabs__panel"
+        aria-labelledby={`tab-${it.id}`}
+        data-active={i === 0 ? '' : undefined}
+        tabindex="0"
+      >
+        <div class="tabs__text">
+          <Tag class="tabs__tag">{it.tag}</Tag>
+          <h3 class="geo-h3">{it.title}</h3>
+          <div class="tabs__copy geo-body-lg">
+            {it.paragraphs.map((p) => (
+              <p>{p.map((s) => (s.strong ? <strong>{s.text}</strong> : s.text))}</p>
+            ))}
+          </div>
+        </div>
+        <div class="tabs__shot">
+          <Image
+            src={it.image}
+            alt={it.imageAlt}
+            widths={[640, 1039]}
+            sizes="(min-width: 1024px) 60vw, 1px"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

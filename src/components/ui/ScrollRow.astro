@@ -1,0 +1,16 @@
+---
+/**
+ * Riga a scroll orizzontale nativo con snap (mobile / tablet). Sotto 1024 è uno scroller che esce
+ * fino ai bordi dello schermo; da 1024 in su non fa nulla di suo: la sezione ne definisce la griglia.
+ */
+interface Props {
+  as?: 'ul' | 'div';
+  class?: string;
+  label?: string;
+}
+const { as: Tag = 'ul', class: className, label } = Astro.props;
+---
+
+<Tag class:list={['scroll-row', className]} aria-label={label}>
+  <slot />
+</Tag>

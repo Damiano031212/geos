@@ -1,0 +1,56 @@
+---
+/** Accordion mobile di "Come funziona" (stessi dati dei tab). Una voce aperta alla volta, richiudibile. */
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import type { TabItem } from '../../content/tabs';
+
+interface Props {
+  items: TabItem[];
+}
+const { items } = Astro.props;
+---
+
+<div class="accordion" data-accordion>
+  {items.map((it, i) => (
+    <div class="accordion__item" data-open={i === 0 ? '' : undefined}>
+      <h3 class="accordion__heading">
+        <button
+          type="button"
+          class="accordion__trigger geo-button-text"
+          id={`acc-${it.id}`}
+          aria-expanded={i === 0 ? 'true' : 'false'}
+          aria-controls={`acc-panel-${it.id}`}
+        >
+          <span>{it.label}</span>
+          <Icon name="arrow-down-fill" class="accordion__icon" />
+        </button>
+      </h3>
+      <div
+        class="accordion__panel"
+        id={`acc-panel-${it.id}`}
+        role="region"
+        aria-labelledby={`acc-${it.id}`}
+      >
+        <div class="accordion__inner">
+          <div class="accordion__content">
+            <p class="geo-body-lg-bold">{it.title}</p>
+            <div class="geo-body-md accordion__copy">
+              {it.paragraphs.map((p) => (
+                <p>{p.map((s) => (s.strong ? <strong>{s.text}</strong> : s.text))}</p>
+              ))}
+            </div>
+            <Image
+              src={it.image}
+              alt={it.imageAlt}
+              class="accordion__shot"
+              widths={[640, 1039]}
+              sizes="(min-width: 1024px) 1px, 90vw"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>

@@ -1,0 +1,50 @@
+---
+/**
+ * Footer: riquadro bianco con bordo, 4 colonne (Brand, Prodotto, Azienda, Legale) e simbolo grande
+ * decorativo che sporge dal bordo inferiore, tagliato dalla fine della pagina.
+ * Lo sfondo a gradiente `light-blue` e la CTA finale sono del wrapper della sezione 9.
+ */
+import logo from '../../assets/logo/geos-logo.svg';
+import symbol from '../../assets/logo/footer-simbolo.svg';
+import Container from './Container.astro';
+import { footer } from '../../content/copy.it';
+---
+
+<footer class="footer" aria-label={footer.label}>
+  <Container cols={12}>
+    <div class="footer__card">
+      <div class="footer__brand">
+        <img src={logo.src} width={logo.width} height={logo.height} alt={footer.logoAlt} />
+        <p class="geo-body-md">{footer.tagline}</p>
+      </div>
+      {footer.columns.map((col) => (
+        <div class={`footer__col footer__col--${col.title.toLowerCase()}`}>
+          <h2 class="geo-body-lg-bold">{col.title}</h2>
+          <ul>
+            {col.links.map((l) => (
+              <li>
+                {l.href ? (
+                  <a href={l.href} class="footer__link geo-body-md">
+                    {l.label}
+                  </a>
+                ) : (
+                  <span class="geo-body-md">{l.label}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <div class="footer__symbol" aria-hidden="true">
+        <img
+          src={symbol.src}
+          width={symbol.width}
+          height={symbol.height}
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </Container>
+</footer>

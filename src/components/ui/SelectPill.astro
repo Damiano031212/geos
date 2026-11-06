@@ -1,0 +1,31 @@
+---
+/** `<select>` nativo con aspetto a pill (accessibile e con selettore di sistema su telefono). */
+import Icon from './Icon.astro';
+
+interface Option {
+  value: string;
+  label: string;
+}
+interface Props {
+  id: string;
+  name?: string;
+  /** Etichetta accessibile (il select non ha label visibile). */
+  label: string;
+  options: Option[];
+  value?: string;
+  disabled?: boolean;
+  class?: string;
+}
+const { id, name = id, label, options, value, disabled = false, class: className } = Astro.props;
+---
+
+<span class:list={['select-pill', className]}>
+  <select {id} {name} aria-label={label} disabled={disabled} class="select-pill__control">
+    {options.map((o) => (
+      <option value={o.value} selected={o.value === value}>
+        {o.label}
+      </option>
+    ))}
+  </select>
+  <Icon name="arrow-down-fill" class="select-pill__icon" />
+</span>

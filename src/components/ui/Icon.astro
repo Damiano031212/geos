@@ -1,0 +1,30 @@
+---
+/**
+ * Icona SVG inline da src/assets/icons, con colore `currentColor`.
+ * Decorativa di default (aria-hidden): l'etichetta accessibile sta sull'elemento che la contiene.
+ */
+const icons = import.meta.glob<string>('../../assets/icons/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const raw = icons[`../../assets/icons/${name}.svg`];
+if (!raw) throw new Error(`Icona non trovata: ${name}`);
+
+const svg = raw
+  .replace(/\s(fill|stroke)="(?!none)[^"]*"/g, ' $1="currentColor"')
+  .replace(/\s(width|height|style|preserveAspectRatio|overflow)="[^"]*"/g, '')
+  .replace(
+    '<svg',
+    `<svg width="1em" height="1em" aria-hidden="true" focusable="false"${className ? ` class="${className}"` : ''}`,
+  );
+---
+
+<Fragment set:html={svg} />

@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../../assets/img/per-chi-e-pensato.webp';
+import Container from '../layout/Container.astro';
+import Section from '../layout/Section.astro';
+import Card from '../ui/Card.astro';
+import Tag from '../ui/Tag.astro';
+import Chip from '../ui/Chip.astro';
+import IconTile from '../ui/IconTile.astro';
+import AvatarStack from '../ui/AvatarStack.astro';
+import ScrollRow from '../ui/ScrollRow.astro';
+import { forWhom as t } from '../../content/sections.it';
+---
+
+<Section id="per-chi" class="for-whom" labelledby="per-chi-titolo">
+  <Container cols={8}>
+    <header class="section-head" data-reveal>
+      <h2 id="per-chi-titolo" class="geo-h2">
+        {t.title}
+      </h2>
+      <p class="geo-body-lg section-head__text">{t.subtitle}</p>
+    </header>
+    <ScrollRow class="for-whom__grid">
+      <li class="for-whom__a" data-reveal="scale">
+        <Card variant="photo" class="for-whom__card">
+          <Image
+            src={photo}
+            alt=""
+            class="card__bg"
+            widths={[430, 860]}
+            sizes="(min-width: 1024px) 30vw, 85vw"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="card__shade" aria-hidden="true"></div>
+          <div class="card__body card__body--end">
+            <Tag>{t.a.tag}</Tag>
+            <h3 class="geo-h3">{t.a.title}</h3>
+            <p class="geo-body-md card__text">{t.a.text}</p>
+          </div>
+        </Card>
+      </li>
+      <li class="for-whom__b" data-reveal="scale">
+        <Card variant="blue" class="for-whom__card">
+          <div class="card__top">
+            <IconTile icon="house" variant="white" />
+            <Tag>{t.b.tag}</Tag>
+          </div>
+          <div class="card__body">
+            <h3 class="geo-h3">{t.b.title}</h3>
+            <p class="geo-body-md card__text">{t.b.text}</p>
+          </div>
+          <ul class="card__chips">
+            {t.b.chips.map((c) => (
+              <li>
+                <Chip tone="dark">{c}</Chip>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </li>
+      <li class="for-whom__c" data-reveal="scale">
+        <Card variant="mist" class="for-whom__card">
+          <div class="card__top">
+            <IconTile icon="user" variant="secondary" />
+            <Tag variant="secondary">{t.c.tag}</Tag>
+          </div>
+          <div class="card__body">
+            <h3 class="geo-h3">{t.c.title}</h3>
+            <p class="geo-body-md card__text">{t.c.text}</p>
+          </div>
+          <ul class="card__chips">
+            {t.c.chips.map((c) => (
+              <li>
+                <Chip>{c}</Chip>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </li>
+      <li class="for-whom__d" data-reveal="scale">
+        <Card variant="tertiary" class="for-whom__card">
+          <div class="card__top">
+            <IconTile icon="users-three" variant="tertiary" />
+            <Tag variant="tertiary">{t.d.tag}</Tag>
+          </div>
+          <div class="card__body card__body--split">
+            <div>
+              <h3 class="geo-h3">{t.d.title}</h3>
+              <p class="geo-body-md card__text">{t.d.text}</p>
+            </div>
+            <AvatarStack class="card__avatars" />
+          </div>
+        </Card>
+      </li>
+    </ScrollRow>
+  </Container>
+</Section>

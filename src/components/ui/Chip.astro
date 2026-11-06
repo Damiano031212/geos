@@ -1,0 +1,12 @@
+---
+/** Pill con bordo sottile e testo piccolo. `dark` per i fondi scuri o a gradiente. */
+interface Props {
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+const { tone = 'light', class: className } = Astro.props;
+---
+
+<span class:list={['chip', `chip--${tone}`, className]}>
+  <slot />
+</span>

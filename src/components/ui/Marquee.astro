@@ -1,0 +1,71 @@
+---
+/**
+ * Striscia di loghi a scorrimento continuo (solo CSS), con dissolvenza ai bordi.
+ * In pausa fuori dal viewport (src/scripts/marquee.ts) e ferma con prefers-reduced-motion.
+ * La prima sequenza è leggibile; tutte le copie per il loop sono aria-hidden.
+ */
+import type { ImageMetadata } from 'astro';
+
+interface Item {
+  name: string;
+  /** Logo largo, per desktop. */
+  desktop: ImageMetadata;
+  /** Tessera quadrata, per mobile. */
+  mobile: ImageMetadata;
+}
+interface Props {
+  items: Item[];
+  label: string;
+  class?: string;
+}
+const { items, label, class: className } = Astro.props;
+
+// 2 gruppi (loop a -50%) × 2 sequenze, così ogni gruppo è più largo del viewport.
+const copies = [0, 1].flatMap((g) => [0, 1].map((r) => ({ g, r, hidden: g !== 0 || r !== 0 })));
+---
+
+<div class:list={['marquee', className]} data-marquee>
+  <div class="marquee__track">
+    {[0, 1].map((g) => (
+      <div class="marquee__group" aria-hidden={g === 0 ? undefined : 'true'}>
+        {copies
+          .filter((c) => c.g === g)
+          .map((c) => (
+            <ul
+              class="marquee__seq"
+              aria-label={c.hidden ? undefined : label}
+              aria-hidden={c.hidden ? 'true' : undefined}
+            >
+              {items.map((i) => (
+                <li>
+                  <img
+                    class="marquee__logo marquee__logo--desktop"
+                    src={i.desktop.src}
+                    width={i.desktop.width}
+                    height={i.desktop.height}
+                    alt={c.hidden ? '' : i.name}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <img
+                    class="marquee__logo marquee__logo--mobile"
+                    src={i.mobile.src}
+                    width={i.mobile.width}
+                    height={i.mobile.height}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+              ))}
+            </ul>
+          ))}
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  import '../../scripts/marquee';
+</script>

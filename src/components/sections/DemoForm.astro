@@ -1,0 +1,103 @@
+---
+/**
+ * Form di contatto (sezione 8). Solo interfaccia: l'invio, la validazione, gli stati e l'anti-spam
+ * (honeypot + Turnstile) sono il passo successivo.
+ * TODO(geos): consenso privacy (checkbox obbligatoria) proposto ma non confermato: non incluso.
+ */
+import { Picture } from 'astro:assets';
+import formImage from '../../assets/img/form-contatto-2x.webp';
+import Container from '../layout/Container.astro';
+import Section from '../layout/Section.astro';
+import Input from '../ui/Input.astro';
+import Stepper from '../ui/Stepper.astro';
+import Button from '../ui/Button.astro';
+import { demoForm as t } from '../../content/sections.it';
+
+const f = t.fields;
+---
+
+<Section class="demo" labelledby="demo-titolo">
+  <Container cols={12}>
+    <header class="demo__head" data-reveal>
+      <h2 id="demo-titolo" class="geo-h1">
+        {t.title}
+      </h2>
+      <p class="geo-body-lg">{t.subtitle}</p>
+    </header>
+  </Container>
+  <Container cols={10}>
+    <div id="demo" class="demo__card" data-reveal>
+      <form class="demo__form" method="post" action="/api/demo" novalidate data-demo-form>
+        <div class="demo__intro">
+          <h3 class="geo-body-lg-bold">{t.formTitle}</h3>
+          <p class="geo-body-md demo__sub">{t.formSubtitle}</p>
+        </div>
+        <Input
+          id="nome"
+          name="firstName"
+          label={f.firstName.label}
+          placeholder={f.firstName.placeholder}
+          autocomplete="given-name"
+          required
+        />
+        <Input
+          id="cognome"
+          name="lastName"
+          label={f.lastName.label}
+          placeholder={f.lastName.placeholder}
+          autocomplete="family-name"
+          required
+        />
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          label={f.email.label}
+          placeholder={f.email.placeholder}
+          autocomplete="email"
+          required
+        />
+        <Input
+          id="telefono"
+          name="phone"
+          type="tel"
+          label={f.phone.label}
+          placeholder={f.phone.placeholder}
+          autocomplete="tel"
+          inputmode="tel"
+          required
+        />
+        <Input
+          id="citta"
+          name="city"
+          label={f.city.label}
+          placeholder={f.city.placeholder}
+          autocomplete="address-level2"
+          required
+        />
+        <Input
+          id="azienda"
+          name="company"
+          label={f.company.label}
+          placeholder={f.company.placeholder}
+          autocomplete="organization"
+        />
+        <Stepper id="dimensione" name="companySize" label={f.size.label} />
+        <Button icon gradient type="submit" class="demo__submit">
+          {t.submit}
+        </Button>
+      </form>
+      <div class="demo__art">
+        <Picture
+          src={formImage}
+          alt={t.imageAlt}
+          widths={[880, 1760]}
+          sizes="(min-width: 1024px) 40vw, 1px"
+          formats={['avif', 'webp']}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </Container>
+</Section>

@@ -1,0 +1,59 @@
+---
+/**
+ * Hero (LCP): foto con overlay, H1, sottotitolo, CTA e striscia dei loghi.
+ * Desktop: la striscia è sovrapposta alla foto. Mobile: sta sotto il riquadro, nella stessa schermata.
+ */
+import { Picture } from 'astro:assets';
+import heroImage from '../../assets/img/hero-2x.webp';
+import immobiliare from '../../assets/logo/immobiliare-it.svg';
+import immobiliareMobile from '../../assets/logo/immobiliare-mobile.svg';
+import wikicasa from '../../assets/logo/wikicasa.svg';
+import wikicasaMobile from '../../assets/logo/wikicasa-mobile.svg';
+import idealista from '../../assets/logo/idealista.svg';
+import idealistaMobile from '../../assets/logo/idealista-mobile.svg';
+import Container from '../layout/Container.astro';
+import Button from '../ui/Button.astro';
+import Marquee from '../ui/Marquee.astro';
+import { hero } from '../../content/sections.it';
+
+const portals = [
+  { name: 'Immobiliare.it', desktop: immobiliare, mobile: immobiliareMobile },
+  { name: 'Wikicasa', desktop: wikicasa, mobile: wikicasaMobile },
+  { name: 'idealista', desktop: idealista, mobile: idealistaMobile },
+  { name: 'Immobiliare.it', desktop: immobiliare, mobile: immobiliareMobile },
+  { name: 'Wikicasa', desktop: wikicasa, mobile: wikicasaMobile },
+];
+---
+
+<section id="hero" class="section hero">
+  <Container cols={12} class="hero__container">
+    <div class="hero__stack">
+      <div class="hero__frame">
+        <Picture
+          data-hero-zoom
+          src={heroImage}
+          alt=""
+          class="hero__image"
+          widths={[640, 1280, 1856, 2560, 3712]}
+          sizes="100vw"
+          formats={['avif', 'webp']}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <div class="hero__content">
+          <div class="hero__text">
+            <h1 class="geo-huge hero__title" data-hero style="--d: 0ms">{hero.title}</h1>
+            <p class="geo-body-lg hero__subtitle" data-hero style="--d: 120ms">{hero.subtitle}</p>
+          </div>
+          <div data-hero style="--d: 240ms">
+            <Button variant="secondary" href={hero.cta.href}>
+              {hero.cta.label}
+            </Button>
+          </div>
+        </div>
+      </div>
+      <Marquee items={portals} label={hero.portalsLabel} class="hero__marquee" />
+    </div>
+  </Container>
+</section>

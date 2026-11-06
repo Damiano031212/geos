@@ -1,0 +1,90 @@
+---
+/**
+ * "Tutto il necessario": carosello circolare. Tre insiemi di card (cloni, reali, cloni) così il
+ * passaggio ultima → prima non ha salti; i cloni sono aria-hidden e inert (src/scripts/carousel.ts).
+ */
+import { Image } from 'astro:assets';
+import Container from '../layout/Container.astro';
+import Section from '../layout/Section.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { features } from '../../content/features';
+import { featuresIntro as t } from '../../content/sections.it';
+
+const n = features.length;
+// [insieme, indice nell'insieme]: 0 = cloni prima, 1 = reali, 2 = cloni dopo.
+const slides = [0, 1, 2].flatMap((set) => features.map((f, i) => ({ set, i, f })));
+const start = n; // la prima card reale
+---
+
+<Section id="tutto-il-necessario" class="features" labelledby="features-titolo">
+  <Container cols={8}>
+    <header class="section-head section-head--center" data-reveal>
+      <h2 id="features-titolo" class="geo-h2">
+        {t.title}
+      </h2>
+      <p class="geo-body-lg section-head__text">{t.subtitle}</p>
+    </header>
+  </Container>
+  <div
+    class="carousel"
+    data-carousel
+    role="region"
+    aria-roledescription="carousel"
+    aria-label={t.region}
+    style={`--i: ${start}`}
+  >
+    <div class="carousel__viewport">
+      <ul class="carousel__track" aria-live="polite">
+        {slides.map(({ set, i, f }, k) => {
+          const real = set === 1;
+          const active = k === start;
+          // Prima card + due vicine in eager, il resto lazy.
+          const eager = k >= start - 1 && k <= start + 1;
+          return (
+            <li
+              class="carousel__slide"
+              role={real ? 'group' : undefined}
+              aria-roledescription={real ? 'slide' : undefined}
+              aria-label={real ? `${i + 1} di ${n}` : undefined}
+              aria-hidden={real ? undefined : 'true'}
+              inert={!active}
+            >
+              <article class="slide">
+                <div class="slide__text">
+                  <h3 class="geo-h3">{f.title}</h3>
+                  <p class="geo-body-huge slide__body">{f.text}</p>
+                  <Button icon gradient href="#demo" tabindex={real ? undefined : -1}>
+                    {t.cta}
+                  </Button>
+                </div>
+                <div class="slide__art">
+                  <Image
+                    src={f.image}
+                    alt=""
+                    widths={[392, 784]}
+                    sizes="(min-width: 1024px) 25vw, 90vw"
+                    loading={eager ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                </div>
+              </article>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+    <div class="carousel__controls" data-reveal="fade">
+      <button type="button" class="carousel__btn" data-prev aria-label={t.prev}>
+        <Icon name="caret-circle-left" />
+      </button>
+      <button type="button" class="carousel__btn" data-next aria-label={t.next}>
+        <Icon name="caret-circle-right" />
+      </button>
+    </div>
+  </div>
+</Section>
+
+<script>
+  import '../../scripts/carousel';
+</script>

@@ -1,0 +1,112 @@
+---
+import { Image, getImage } from 'astro:assets';
+import agendaShot from '../../assets/img/suite-sito-vetrina.webp';
+import siteShot from '../../assets/img/suite-brand.webp';
+import chatShot from '../../assets/img/suite-conversazioni.webp';
+import siteShotMobile from '../../assets/img/suite-brand-mobile.png';
+import chatShotMobile from '../../assets/img/suite-conversazioni-mobile.png';
+import Container from '../layout/Container.astro';
+import Section from '../layout/Section.astro';
+import Card from '../ui/Card.astro';
+import Tag from '../ui/Tag.astro';
+import IconTile from '../ui/IconTile.astro';
+import ScrollRow from '../ui/ScrollRow.astro';
+import { suite as t } from '../../content/sections.it';
+
+// Sotto 1024 px le card site/chat usano le immagini ritagliate del layout mobile (296×200).
+const mobileSite = await getImage({ src: siteShotMobile, format: 'webp', widths: [296, 592] });
+const mobileChat = await getImage({ src: chatShotMobile, format: 'webp', widths: [296, 592] });
+const srcset = (img: Awaited<ReturnType<typeof getImage>>) => img.srcSet.attribute;
+---
+
+<Section id="suite" class="suite" labelledby="suite-titolo">
+  <Container cols={8}>
+    <header class="suite__head" data-reveal>
+      <h2 id="suite-titolo" class="geo-h2">
+        {t.title}
+      </h2>
+      <p class="geo-body-lg suite__intro">{t.text}</p>
+    </header>
+    <ScrollRow class="suite__grid">
+      <li class="suite__agenda" data-reveal>
+        <Card variant="suite" class="suite__card">
+          <div class="card__top">
+            <IconTile icon="calendar" variant="glass" />
+            <Tag class="tag--glass">{t.agenda.tag}</Tag>
+          </div>
+          <div class="card__body suite__copy">
+            <h3 class="geo-h2 suite__big">{t.agenda.title}</h3>
+            <p class="geo-body-md card__text">{t.agenda.text}</p>
+          </div>
+          <Image
+            src={agendaShot}
+            alt={t.agenda.imageAlt}
+            class="suite__shot"
+            widths={[697, 1394]}
+            sizes="(min-width: 1024px) 40vw, 85vw"
+            loading="lazy"
+            decoding="async"
+          />
+        </Card>
+      </li>
+      <li class="suite__site" data-reveal>
+        <Card variant="suite" class="suite__card">
+          <div class="card__top">
+            <IconTile icon="globe" variant="glass" />
+            <Tag class="tag--glass">{t.site.tag}</Tag>
+          </div>
+          <div class="card__body suite__copy">
+            <h3 class="geo-h3">{t.site.title}</h3>
+            <p class="geo-body-md card__text">{t.site.text}</p>
+          </div>
+          <picture class="suite__shot-wrap">
+            <source
+              media="(max-width: 1023px)"
+              srcset={srcset(mobileSite)}
+              sizes="296px"
+              type="image/webp"
+            />
+            <Image
+              src={siteShot}
+              alt={t.site.imageAlt}
+              class="suite__shot"
+              widths={[402, 804]}
+              sizes="(min-width: 1024px) 25vw, 85vw"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </Card>
+      </li>
+      <li class="suite__chat" data-reveal>
+        <Card variant="tertiary" class="suite__card">
+          <div class="card__top">
+            <IconTile icon="chat-circle-text-24" variant="dark" />
+            <Tag variant="dark">{t.chat.tag}</Tag>
+          </div>
+          <div class="card__body suite__copy">
+            <h3 class="geo-h3">{t.chat.title}</h3>
+            <p class="geo-body-md card__text">{t.chat.text}</p>
+          </div>
+          <picture class="suite__shot-wrap">
+            <source
+              media="(max-width: 1023px)"
+              srcset={srcset(mobileChat)}
+              sizes="296px"
+              type="image/webp"
+            />
+            <Image
+              src={chatShot}
+              alt={t.chat.imageAlt}
+              class="suite__shot"
+              widths={[400, 800]}
+              sizes="(min-width: 1024px) 25vw, 85vw"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </Card>
+      </li>
+    </ScrollRow>
+  </Container>
+</Section>

@@ -1,0 +1,63 @@
+---
+import '../../styles/global.css';
+import titleFont from '../../assets/fonts/cabinet-grotesk-variable.woff2?url';
+import textFont from '../../assets/fonts/dm-sans-variable.woff2?url';
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <!-- Abilita lo stato iniziale "nascosto" delle animazioni solo se JS è attivo (animations.css). -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href={titleFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={textFont} as="font" type="font/woff2" crossorigin />
+    <!-- TODO(geos): Open Graph, canonical, sitemap, robots, JSON-LD dopo la scelta del dominio. -->
+  </head>
+  <body>
+    <!-- Filtro "goo" dell'effetto goccia dei pulsanti con icona (vedi Button.astro). -->
+    <svg width="0" height="0" aria-hidden="true" focusable="false" style="position: absolute">
+      <filter
+        id="geos-goo"
+        x="-40%"
+        y="-50%"
+        width="190%"
+        height="200%"
+        color-interpolation-filters="sRGB"
+      >
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+        <feColorMatrix
+          in="blur"
+          mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9"
+        />
+      </filter>
+    </svg>
+    <a class="skip-link geo-body-md-bold" href="#contenuto">
+      Vai al contenuto
+    </a>
+    <slot name="header" />
+    <main id="contenuto" tabindex="-1">
+      <slot />
+    </main>
+    <slot name="footer" />
+    <script>
+      import '../../scripts/reveal';
+    </script>
+  </body>
+</html>

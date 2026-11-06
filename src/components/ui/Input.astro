@@ -1,0 +1,63 @@
+---
+/** Campo del form: label visibile sopra, errore associato con aria-describedby. */
+interface Props {
+  id: string;
+  name?: string;
+  label: string;
+  type?: 'text' | 'email' | 'tel' | 'url';
+  required?: boolean;
+  disabled?: boolean;
+  placeholder?: string;
+  autocomplete?: string;
+  inputmode?: 'text' | 'tel' | 'email' | 'numeric' | 'url';
+  value?: string;
+  error?: string;
+  class?: string;
+}
+const {
+  id,
+  name = id,
+  label,
+  type = 'text',
+  required = false,
+  disabled = false,
+  placeholder,
+  autocomplete,
+  inputmode,
+  value,
+  error,
+  class: className,
+} = Astro.props;
+const errorId = `${id}-error`;
+---
+
+<div class:list={['field', className]}>
+  <label for={id} class="field__label geo-body-md-bold">
+    {label}
+    {required && (
+      <span class="field__required" aria-hidden="true">
+        {' '}
+        *
+      </span>
+    )}
+  </label>
+  <input
+    {id}
+    {name}
+    {type}
+    {placeholder}
+    {autocomplete}
+    {inputmode}
+    {value}
+    required={required}
+    disabled={disabled}
+    aria-invalid={error ? 'true' : undefined}
+    aria-describedby={error ? errorId : undefined}
+    class="field__control"
+  />
+  {error && (
+    <p id={errorId} class="field__error geo-body-sm">
+      {error}
+    </p>
+  )}
+</div>

@@ -1,0 +1,68 @@
+---
+/**
+ * Pulsante. Varianti: primary, not-filled, secondary, navbar. Con `icon` ha la freccia a destra
+ * e l'effetto "goccia" all'hover (solo `hover: hover`); `gradient` è la variante a gradiente.
+ * Con `href` è un link, altrimenti un <button>. Il filtro SVG #geos-goo sta in Base.astro.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  variant?: 'primary' | 'not-filled' | 'secondary' | 'navbar';
+  icon?: boolean;
+  gradient?: boolean;
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const {
+  variant = 'primary',
+  icon = false,
+  gradient = false,
+  href,
+  type = 'button',
+  disabled = false,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  'btn',
+  `btn--${variant}`,
+  icon && 'btn--icon',
+  icon && gradient && 'btn--gradient',
+  className,
+];
+---
+
+{href ? (
+  <a
+    href={disabled ? undefined : href}
+    aria-disabled={disabled ? 'true' : undefined}
+    role={disabled ? 'link' : undefined}
+    class:list={classes}
+    {...rest}
+  >
+    <span class="btn__bg" aria-hidden="true">
+      <span class="btn__shape" />
+      {icon && <span class="btn__dot" />}
+    </span>
+    <span class="btn__label geo-button-text">
+      <slot />
+    </span>
+    {icon && <Icon name="arrow-right" class="btn__arrow" />}
+  </a>
+) : (
+  <button type={type} disabled={disabled} class:list={classes} {...rest}>
+    <span class="btn__bg" aria-hidden="true">
+      <span class="btn__shape" />
+      {icon && <span class="btn__dot" />}
+    </span>
+    <span class="btn__label geo-button-text">
+      <slot />
+    </span>
+    {icon && <Icon name="arrow-right" class="btn__arrow" />}
+  </button>
+)}

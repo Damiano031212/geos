@@ -1,0 +1,100 @@
+---
+import { Image } from 'astro:assets';
+import noise from '../../assets/img/numeri-99-white-noise.svg';
+import bento from '../../assets/img/numeri-bento.webp';
+import hours from '../../assets/img/numeri-40-ore.webp';
+import contracts from '../../assets/img/numeri-80-contratti.webp';
+import field from '../../assets/img/numeri-testato-sul-campo.webp';
+import Container from '../layout/Container.astro';
+import Section from '../layout/Section.astro';
+import { numbers as t } from '../../content/sections.it';
+---
+
+<Section id="numeri" class="numbers" labelledby="numeri-titolo">
+  <Container cols={8}>
+    <h2 id="numeri-titolo" class="geo-h2 numbers__title" data-reveal>
+      {t.title}
+    </h2>
+    <div class="numbers__grid">
+      <article class="num-card num-card--time" data-reveal>
+        <img
+          src={noise.src}
+          width={noise.width}
+          height={noise.height}
+          alt=""
+          aria-hidden="true"
+          class="num-card__noise"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="num-card__body">
+          <p class="num-card__value geo-h1" data-count>{t.time.value}</p>
+          <p class="geo-body-lg">{t.time.text}</p>
+        </div>
+      </article>
+      <article class="num-card num-card--first" data-reveal>
+        <p class="num-card__value geo-h1" data-count>{t.first.value}</p>
+        <p class="geo-body-lg">{t.first.text}</p>
+      </article>
+      <article class="num-card num-card--ui" data-reveal>
+        <div class="num-card__frame">
+          <Image
+            src={bento}
+            alt={t.uiAlt}
+            class="num-card__ui"
+            widths={[342, 684]}
+            sizes="(min-width: 1024px) 25vw, 90vw"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </article>
+      <article class="num-card num-card--hours" data-reveal>
+        <Image
+          src={hours}
+          alt=""
+          class="card__bg"
+          widths={[398, 796]}
+          sizes="(min-width: 1024px) 25vw, 90vw"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="card__shade" aria-hidden="true"></div>
+        <div class="num-card__body">
+          <p class="num-card__value geo-h1" data-count>{t.hours.value}</p>
+          <p class="geo-body-lg">{t.hours.text}</p>
+        </div>
+      </article>
+      <article class="num-card num-card--contracts" data-reveal>
+        <Image
+          src={contracts}
+          alt=""
+          class="card__bg"
+          widths={[398, 796]}
+          sizes="(min-width: 1024px) 25vw, 90vw"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="num-card__body">
+          <p class="num-card__value geo-h1" data-count>{t.contracts.value}</p>
+          <p class="geo-body-lg">{t.contracts.text}</p>
+        </div>
+      </article>
+      <article class="num-card num-card--banner" data-reveal>
+        <div class="num-card__banner-text">
+          <h3 class="geo-h2">{t.banner.title}</h3>
+          <p class="geo-body-lg">{t.banner.text}</p>
+        </div>
+        <Image
+          src={field}
+          alt=""
+          class="num-card__banner-img"
+          widths={[566, 1132]}
+          sizes="(min-width: 1024px) 45vw, 90vw"
+          loading="lazy"
+          decoding="async"
+        />
+      </article>
+    </div>
+  </Container>
+</Section>

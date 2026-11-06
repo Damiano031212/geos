@@ -1,0 +1,15 @@
+---
+/** Quadratino con icona al centro. Decorativo (l'icona è aria-hidden). */
+import Icon from './Icon.astro';
+
+interface Props {
+  icon: string;
+  variant?: 'white' | 'secondary' | 'tertiary' | 'glass' | 'dark';
+  class?: string;
+}
+const { icon, variant = 'white', class: className } = Astro.props;
+---
+
+<span class:list={['icon-tile', `icon-tile--${variant}`, className]} aria-hidden="true">
+  <Icon name={icon} />
+</span>
