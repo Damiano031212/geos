@@ -1,0 +1,181 @@
+/* ---- Animazioni di ingresso ----
+   Strato di movimento sopra il layout esistente. Guidato da attributi data-*:
+     [data-reveal]            fade + slide-up (default)
+     [data-reveal="scale"]    fade + scale 0.97 → 1
+     [data-reveal="fade"]     solo fade
+     [data-hero]              ingresso al caricamento (hero), ritardo in --d
+     [data-hero-zoom]         zoom lento della foto hero
+     [data-count]             count-up (scripts/reveal.ts)
+   Regolazioni: durate/easing/distanza sono token in tokens.css (--duration-reveal, --ease-reveal,
+   --reveal-distance, --duration-hero-zoom, --duration-count).
+   Lo stato iniziale "nascosto" esiste solo con JS attivo (classe `js` su <html>) e solo senza
+   prefers-reduced-motion: in tutti gli altri casi il contenuto è subito visibile.
+   Si animano solo transform e opacity. Mai su .btn, navbar, slide del carousel. */
+
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal] {
+      transition:
+        opacity var(--duration-reveal) var(--ease-reveal) var(--reveal-delay, 0ms),
+        transform var(--duration-reveal) var(--ease-reveal) var(--reveal-delay, 0ms);
+    }
+    .js [data-reveal]:not(.is-in) {
+      opacity: 0;
+      transform: translateY(var(--reveal-distance));
+      will-change: opacity, transform;
+    }
+    .js [data-reveal='scale']:not(.is-in) {
+      transform: scale(0.97);
+    }
+    .js [data-reveal='fade']:not(.is-in) {
+      transform: none;
+    }
+
+    /* Hero: ingresso al caricamento, senza JS di pagina. */
+    .js [data-hero] {
+      animation: geo-reveal-up var(--duration-reveal) var(--ease-reveal) var(--d, 0ms) both;
+    }
+    .js [data-hero-zoom] {
+      animation: geo-zoom-out var(--duration-hero-zoom) var(--ease-reveal) both;
+    }
+
+    /* Chip e avatar delle card "Per chi è pensato": scale-in a cascata dopo la card. */
+    .js .for-whom__grid li:not(.is-in) .card__chips li,
+    .js .for-whom__grid li:not(.is-in) .card__avatars {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    .for-whom__grid .card__chips li,
+    .for-whom__grid .card__avatars {
+      transition:
+        opacity var(--duration-slow) var(--ease-reveal),
+        transform var(--duration-slow) var(--ease-reveal);
+    }
+    .for-whom__grid .is-in .card__chips li:nth-child(1) {
+      transition-delay: 300ms;
+    }
+    .for-whom__grid .is-in .card__chips li:nth-child(2) {
+      transition-delay: 360ms;
+    }
+    .for-whom__grid .is-in .card__chips li:nth-child(3) {
+      transition-delay: 420ms;
+    }
+    .for-whom__grid .is-in .card__chips li:nth-child(n + 4),
+    .for-whom__grid .is-in .card__avatars {
+      transition-delay: 480ms;
+    }
+
+    /* Tab "Come funziona": lo screenshot scivola leggermente mentre il pannello fa crossfade
+       (il crossfade del pannello è già in sections.css; la logica JS non cambia). */
+    .tabs__panel .tabs__shot {
+      transform: translateX(var(--space-12));
+      transition: transform var(--duration-slow) var(--ease-reveal);
+    }
+    .tabs__panel[data-active] .tabs__shot {
+      transform: none;
+    }
+
+    /* Cambio prezzo: breve fade sul numero (scripts/reveal.ts aggiunge .is-tick). */
+    .is-tick {
+      animation: geo-fade-in var(--duration-base) var(--ease-reveal) both;
+    }
+
+    /* Logo navbar: la sparkle fa due saltini morbidi (con schiacciamento e allungamento) in hover
+       o con il focus da tastiera sul logo. Una sola volta per hover, solo transform. */
+    .logo__sparkle {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+    }
+    @media (hover: hover) {
+      .navbar__logo:hover .logo__sparkle {
+        animation: geo-sparkle-hop var(--duration-sparkle) var(--ease-standard) both;
+      }
+    }
+    .navbar__logo:focus-visible .logo__sparkle {
+      animation: geo-sparkle-hop var(--duration-sparkle) var(--ease-standard) both;
+    }
+
+    /* Messaggi di errore dei campi: fade-in breve. */
+    .field__error {
+      animation: geo-fade-in var(--duration-base) var(--ease-reveal) both;
+    }
+  }
+
+  /* Numeri: cifre a larghezza fissa durante il count-up (nessuno shift). */
+  [data-count] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Card "Per chi è pensato": gli angoli restano arrotondati anche durante l'hover. Con overflow
+     hidden + transform sul genitore e sullo sfondo, Chrome può perdere il ritaglio agli angoli. */
+  .for-whom__card {
+    isolation: isolate;
+    clip-path: inset(0 round var(--radius-24));
+    /* Safari: ritaglio arrotondato affidabile anche con figli trasformati. */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+  }
+
+  /* Hover (solo dispositivi con puntatore): sollevamento minimo e zoom della foto. */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .for-whom__card {
+      transition: transform var(--duration-base) var(--ease-reveal);
+    }
+    .for-whom__card:hover {
+      transform: translateY(-2px);
+    }
+    .for-whom__card .card__bg {
+      transition: transform var(--duration-reveal) var(--ease-reveal);
+    }
+    .for-whom__card:hover .card__bg {
+      transform: scale(1.03);
+    }
+  }
+
+  /* Campi: transizione morbida di sfondo e bordo (colori esistenti). */
+  .field__control {
+    transition:
+      background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard);
+  }
+}
+
+@keyframes geo-reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+  }
+}
+@keyframes geo-zoom-out {
+  from {
+    transform: scale(1.04);
+  }
+}
+@keyframes geo-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes geo-sparkle-hop {
+  0% {
+    transform: translateY(0) scale(1, 1);
+  }
+  12% {
+    transform: translateY(0) scale(1.1, 0.88);
+  }
+  34% {
+    transform: translateY(-7px) scale(0.94, 1.1);
+  }
+  54% {
+    transform: translateY(0) scale(1.07, 0.93);
+  }
+  70% {
+    transform: translateY(-3.5px) scale(0.98, 1.04);
+  }
+  86% {
+    transform: translateY(0) scale(1.03, 0.97);
+  }
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+}

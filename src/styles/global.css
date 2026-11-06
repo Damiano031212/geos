@@ -1,0 +1,152 @@
+@import 'tailwindcss';
+@import './tokens.css';
+@import './typography.css';
+@import './components.css';
+@import './sections.css';
+@import './animations.css';
+
+/* ---- Griglia ----
+   Desktop (≥ 1024): 12 colonne, margini 32, gutter 20 (frame 1920).
+   Mobile (< 1024): 4 colonne, gutter 12, margini 12 (frame 375), 32 tra 768 e 1023 (nessun design tablet).
+   Tutto è fluido; il contenuto resta centrato con max-width --page-max.
+   TODO(geos): confermare il comportamento oltre 1920 px. */
+:root {
+  --margin: var(--space-12);
+  --gutter: var(--space-12);
+  --cols: 4;
+}
+
+@media (width >= theme(--breakpoint-md)) {
+  :root {
+    --margin: var(--space-32);
+  }
+}
+
+@media (width >= theme(--breakpoint-lg)) {
+  :root {
+    --gutter: var(--space-20);
+    --cols: 12;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-white);
+    color: var(--color-black);
+    font-family: var(--font-text);
+    font-size: var(--text-body-md);
+    line-height: var(--leading-body-md);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Focus visibile ovunque: doppio anello (anello esterno, spazio chiaro, contenuto). */
+  :focus-visible {
+    outline: var(--focus-ring-width) solid var(--color-primary-darker);
+    outline-offset: var(--focus-ring-gap);
+    box-shadow: 0 0 0 var(--focus-ring-gap) var(--color-white);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Container a 12 / 10 / 8 colonne. Il wrapper è la griglia della pagina; `.grid-container__inner`
+     occupa le colonne del container. Sotto 1024 tutti i container sono a piena larghezza. */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    column-gap: var(--gutter);
+    max-width: var(--page-max);
+    margin-inline: auto;
+    padding-inline: var(--margin);
+  }
+
+  .grid-container__inner {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+
+  @media (width >= theme(--breakpoint-lg)) {
+    /* 1024–1439: una colonna per lato invece di due (proposta, da verificare a vista). */
+    .grid-container--10 > .grid-container__inner,
+    .grid-container--8 > .grid-container__inner {
+      grid-column: 2 / 12;
+    }
+  }
+
+  @media (width >= theme(--breakpoint-xl)) {
+    .grid-container--8 > .grid-container__inner {
+      grid-column: 3 / 11;
+    }
+  }
+
+  .section {
+    scroll-margin-top: var(--nav-offset);
+  }
+
+  /* Punto di arrivo delle ancore della navbar (da screenshot di riferimento). Si può regolare qui.
+     - #come-funziona: il riquadro scuro arriva a ~50 px dal bordo alto.
+     - #suite e #piani: il titolo arriva a ~130 px dal bordo alto (sezione 16 px sopra il bordo).
+     - #demo: l'ancora è sulla card del form (non sull'intestazione), a ~40 px dal bordo alto. */
+  .section.how {
+    scroll-margin-top: var(--space-48);
+  }
+  .section.suite,
+  .section.plans {
+    scroll-margin-top: calc(var(--space-16) * -1);
+  }
+  #demo {
+    scroll-margin-top: var(--space-40);
+  }
+
+  /* Guida visiva delle colonne, usata solo da /design-system (12 span dentro un `.grid-container`). */
+  .grid-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+  }
+  body:has(#grid-toggle:checked) .grid-overlay {
+    display: grid;
+  }
+  .grid-overlay > span {
+    background-color: var(--color-grid-overlay);
+  }
+  @media not (width >= theme(--breakpoint-lg)) {
+    .grid-overlay > span:nth-child(n + 5) {
+      display: none;
+    }
+  }
+
+  .skip-link {
+    position: absolute;
+    inset-inline-start: var(--space-12);
+    inset-block-start: var(--space-12);
+    z-index: 100;
+    padding: var(--space-12) var(--space-16);
+    border-radius: var(--radius-12);
+    background-color: var(--color-white);
+    color: var(--color-primary-darker);
+    transform: translateY(-200%);
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+}

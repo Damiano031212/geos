@@ -1,0 +1,230 @@
+/*
+ * Token del design system Geos. Fonte: docs/design-system.md.
+ * Nessun valore hardcoded nei componenti: se manca un token, si crea qui.
+ * Spazi, raggi e testi sono in rem (1rem = 16px) per rispettare lo zoom del browser.
+ */
+
+/* Si parte da zero: esistono solo i colori, i raggi, le ombre e i font di Geos. */
+@theme static {
+  --color-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --leading-*: initial;
+  --breakpoint-*: initial;
+  --ease-*: initial;
+
+  /* ---- Breakpoint (proposta da validare a vista) ---- */
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+
+  /* ---- Colori ---- */
+  --color-primary-darker: #133051;
+  --color-primary-dark: #283b5b;
+  --color-primary-medium: #394766;
+  --color-primary-light: #4b5573;
+  --color-primary-lighter: #5e6580;
+
+  --color-secondary-darker: #5897df;
+  --color-secondary-medium: #78abe4;
+
+  --color-tertiary-darker: #cde8f1;
+  --color-tertiary-medium: #deeff5;
+  --color-tertiary-light: #e7f2f7;
+  --color-tertiary-lighter: #eff6f8;
+
+  /* Il bianco del sito è #fafafa, mai #fff. */
+  --color-white: #fafafa;
+  --color-black: #0e0e0e;
+
+  --color-gray-50: #f2f2f2;
+  --color-gray-100: #e6e6e6;
+  --color-gray-300: #b3b3b3;
+  --color-gray-400: #999999;
+  --color-gray-700: #4d4d4d;
+  --color-gray-800: #333333;
+  --color-gray-950: #121212;
+
+  /* TODO(geos): nomi provvisori dei token "promossi" dal Figma. */
+  --color-sky-100: #deedff;
+  --color-azure-300: #5d9ee9;
+  --color-mist-100: #f1f5fa;
+
+  /* TODO(geos): trasparenze (UI.md non disponibile): stimate dai frame, provvisorie. */
+  --color-white-10: rgb(250 250 250 / 0.1);
+  --color-white-20: rgb(250 250 250 / 0.2);
+  --color-black-10: rgb(14 14 14 / 0.1);
+  --color-black-20: rgb(14 14 14 / 0.2);
+  --color-primary-darker-90: rgb(19 48 81 / 0.9);
+  --color-overlay-20: rgb(14 14 14 / 0.2);
+  /* Sfumatura della card foto "Per chi è pensato": #0a182a, 0% → 90%. */
+  --color-shade-0: rgb(10 24 42 / 0);
+  --color-shade-90: rgb(10 24 42 / 0.9);
+
+  /* Solo per la guida visiva della griglia in /design-system (secondary-darker al 20%). */
+  --color-grid-overlay: rgb(88 151 223 / 0.2);
+
+  /* TODO(geos): rosso errore dei campi (non in palette). Valore provvisorio, contrasto AA su gray-50. */
+  --color-error: #b42318;
+
+  /* ---- Gradienti ---- */
+  --gradient-inverse-blue: linear-gradient(
+    to left,
+    var(--color-secondary-darker),
+    var(--color-primary-darker)
+  );
+  --gradient-blue: linear-gradient(
+    to left,
+    var(--color-primary-darker),
+    var(--color-secondary-darker)
+  );
+  --gradient-sky-blue: linear-gradient(
+    to bottom,
+    var(--color-sky-100) 0%,
+    var(--color-white) 53.38%
+  );
+  --gradient-light-blue: linear-gradient(
+    to bottom,
+    var(--color-secondary-darker) 0%,
+    var(--color-white) 70.673%
+  );
+  --gradient-dark: linear-gradient(
+    to right,
+    var(--color-primary-darker) 34.615%,
+    var(--color-black)
+  );
+  --gradient-wordmark: linear-gradient(
+    to left,
+    var(--color-primary-darker),
+    var(--color-azure-300)
+  );
+  /* TODO(geos): gradiente verticale della sezione Suite, non tra i token del Figma: confermare. */
+  --gradient-dark-vertical: linear-gradient(
+    to bottom,
+    var(--color-black),
+    var(--color-primary-darker)
+  );
+
+  /* ---- Spaziatura ---- */
+  --space-4: 0.25rem;
+  --space-8: 0.5rem;
+  --space-12: 0.75rem;
+  --space-16: 1rem;
+  --space-20: 1.25rem;
+  --space-24: 1.5rem;
+  --space-32: 2rem;
+  --space-48: 3rem;
+  --space-64: 4rem;
+
+  /* Alias dei nomi Figma: sm = md = 12, lg = xl = 16. */
+  --space-sm: var(--space-12);
+  --space-md: var(--space-12);
+  --space-lg: var(--space-16);
+  --space-xl: var(--space-16);
+
+  /* Altri gap del design */
+  --space-18: 1.125rem; /* form */
+  --space-36: 2.25rem; /* footer */
+  --space-40: 2.5rem; /* elementi dentro le card dei piani su mobile */
+  --space-134: 8.375rem; /* padding superiore del contenuto della hero su desktop */
+  --space-62: 3.875rem; /* padding inferiore del contenuto della hero su mobile */
+
+  /* ---- Raggi ---- */
+  --radius-8: 0.5rem;
+  --radius-12: 0.75rem;
+  --radius-14: 0.875rem;
+  --radius-16: 1rem;
+  --radius-20: 1.25rem;
+  --radius-24: 1.5rem;
+  --radius-28: 1.75rem;
+  --radius-32: 2rem;
+  --radius-36: 2.25rem;
+  --radius-40: 2.5rem;
+  --radius-pill: 9999px;
+
+  /* ---- Ombre ----
+     TODO(geos): le 6 ombre di UI.md non sono disponibili. Scala provvisoria, leggera. */
+  --shadow-1: 0 1px 2px var(--color-black-10);
+  --shadow-2: 0 2px 6px var(--color-black-10);
+  --shadow-3: 0 4px 12px var(--color-black-10);
+  --shadow-4: 0 8px 24px var(--color-black-10);
+  --shadow-5: 0 12px 32px var(--color-black-10);
+  --shadow-6: 0 20px 48px var(--color-black-20);
+
+  /* ---- Motion ---- */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 300ms;
+  --duration-drop: 350ms;
+  --duration-drop-back: 300ms;
+  --duration-carousel: 500ms;
+  --duration-marquee: 40s;
+  --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0, 0, 0.58, 1);
+  /* Navbar: uscita rapida che accelera, rientro con un leggero rimbalzo. */
+  --ease-in: cubic-bezier(0.55, 0, 0.8, 0.3);
+  --ease-return: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Animazioni di ingresso (animations.css, scripts/reveal.ts). */
+  --duration-reveal: 700ms;
+  --duration-hero-zoom: 1200ms;
+  --duration-count: 1400ms;
+  --duration-sparkle: 800ms;
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-distance: 20px;
+  /* Carosello "Tutto il necessario": scala delle card laterali (la centrale è 1). */
+  --slide-side-scale: 0.86;
+  --slide-side-scale-hover: 0.92;
+  --duration-nav-out: 350ms;
+  --duration-nav-in: 550ms;
+
+  /* ---- Focus ---- */
+  --focus-ring-width: 2px;
+  --focus-ring-gap: 2px;
+
+  /* ---- Layout ---- */
+  --page-max: 1920px;
+  /* TODO(geos): altezza navbar provvisoria, per `scroll-margin-top` delle sezioni. */
+  --nav-offset: 7rem;
+
+  /* Altezza dell'immagine delle card del carosello su mobile, così card e frecce stanno nella viewport. */
+  --size-slide-art-mobile: 12.5rem;
+
+  /* ---- Font ---- */
+  --font-title: 'Cabinet Grotesk', 'Cabinet Grotesk Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-text: 'DM Sans', 'DM Sans Fallback', ui-sans-serif, system-ui, sans-serif;
+
+  /* ---- Tipografia fluida 375 → 1920 (clamp generato da valori mobile → desktop) ----
+     Desktop: valori di docs/design-system.md.
+     Valori mobile e desktop da specifiche-corner-radius-tipografia-geos.md (Figma "dati"). */
+  --text-huge: clamp(2.5rem, 1.6505rem + 3.6246vw, 6rem);
+  --leading-huge: clamp(2.75rem, 1.5971rem + 4.9191vw, 7.5rem);
+  --text-title-huge-tight: clamp(2.5rem, 1.6505rem + 3.6246vw, 6rem);
+  --leading-title-huge-tight: clamp(2.75rem, 1.9612rem + 3.3657vw, 6rem);
+  --text-h1: clamp(2.25rem, 1.5522rem + 2.9773vw, 5.125rem);
+  --leading-h1: clamp(2.75rem, 2.3859rem + 1.5534vw, 4.25rem);
+  --text-h2: clamp(2rem, 1.6359rem + 1.5534vw, 3.5rem);
+  --leading-h2: clamp(2.25rem, 2.0073rem + 1.0356vw, 3.25rem);
+  --text-h3: clamp(1.5rem, 1.3786rem + 0.5178vw, 2rem);
+  --leading-h3: clamp(1.75rem, 1.6893rem + 0.2589vw, 2rem);
+  --text-h4: clamp(1.25rem, 1.1893rem + 0.2589vw, 1.5rem);
+  --leading-h4: clamp(1.25rem, 1.1893rem + 0.2589vw, 1.5rem);
+  --text-tab-title: 1.5rem;
+  --leading-tab-title: 2.0125rem;
+  --text-button: clamp(0.875rem, 0.784rem + 0.3883vw, 1.25rem);
+  --leading-button: clamp(1.05rem, 0.9408rem + 0.466vw, 1.5rem);
+  --text-body-huge: clamp(1rem, 0.8786rem + 0.5178vw, 1.5rem);
+  --leading-body-huge: clamp(1.375rem, 1.193rem + 0.7767vw, 2.125rem);
+  --text-body-lg: clamp(1rem, 0.9697rem + 0.1294vw, 1.125rem);
+  --leading-body-lg: clamp(1.375rem, 1.3143rem + 0.2589vw, 1.625rem);
+  --text-body-md: clamp(0.875rem, 0.8447rem + 0.1294vw, 1rem);
+  --leading-body-md: clamp(1.125rem, 1.0947rem + 0.1294vw, 1.25rem);
+  --text-body-sm: clamp(0.75rem, 0.7197rem + 0.1294vw, 0.875rem);
+  --leading-body-sm: 1.25rem;
+  --text-label-lg: 0.875rem;
+  --leading-label-lg: 1rem;
+  --text-label-md: 0.75rem;
+  --leading-label-md: 1.125rem;
+}

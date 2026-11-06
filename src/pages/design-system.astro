@@ -1,0 +1,668 @@
+---
+/**
+ * Galleria dei token del design system. noindex, non linkata dal sito.
+ * I valori mostrati sono letti a runtime dai token CSS (tokens.css): nessuna copia da mantenere.
+ */
+import Base from '../components/layout/Base.astro';
+import Container from '../components/layout/Container.astro';
+import Button from '../components/ui/Button.astro';
+import Tag from '../components/ui/Tag.astro';
+import Chip from '../components/ui/Chip.astro';
+import IconTile from '../components/ui/IconTile.astro';
+import Card from '../components/ui/Card.astro';
+import AvatarStack from '../components/ui/AvatarStack.astro';
+import SelectPill from '../components/ui/SelectPill.astro';
+import Input from '../components/ui/Input.astro';
+import Stepper from '../components/ui/Stepper.astro';
+
+const buttonVariants = [
+  { variant: 'primary', label: 'Primary', surface: 'light' },
+  { variant: 'not-filled', label: 'Not filled', surface: 'dark' },
+  { variant: 'secondary', label: 'Secondary', surface: 'light' },
+] as const;
+const iconTiles = ['white', 'secondary', 'tertiary', 'glass', 'dark'] as const;
+const cardVariants = ['photo', 'blue', 'tertiary', 'white', 'sky'] as const;
+
+const colorGroups = [
+  {
+    name: 'Primary',
+    tokens: [
+      'primary-darker',
+      'primary-dark',
+      'primary-medium',
+      'primary-light',
+      'primary-lighter',
+    ],
+  },
+  { name: 'Secondary', tokens: ['secondary-darker', 'secondary-medium'] },
+  {
+    name: 'Tertiary',
+    tokens: ['tertiary-darker', 'tertiary-medium', 'tertiary-light', 'tertiary-lighter'],
+  },
+  { name: 'Base', tokens: ['white', 'black'] },
+  {
+    name: 'Grigi',
+    tokens: ['gray-50', 'gray-100', 'gray-300', 'gray-400', 'gray-700', 'gray-800', 'gray-950'],
+  },
+  { name: 'Promossi (nomi provvisori)', tokens: ['sky-100', 'azure-300', 'mist-100'] },
+  { name: 'Errore (provvisorio)', tokens: ['error'] },
+];
+
+const alphaTokens = [
+  'white-10',
+  'white-20',
+  'black-10',
+  'black-20',
+  'primary-darker-90',
+  'overlay-20',
+];
+
+const gradients = [
+  'inverse-blue',
+  'blue',
+  'sky-blue',
+  'light-blue',
+  'dark',
+  'wordmark',
+  'dark-vertical',
+];
+
+const typeSpecs = [
+  { cls: 'geo-huge', role: 'huge', spec: '96 / 120' },
+  { cls: 'geo-title-huge-tight', role: 'title-huge-tight', spec: '96 / 96' },
+  { cls: 'geo-h1', role: 'h1', spec: '82 / 68' },
+  { cls: 'geo-h2', role: 'h2', spec: '56 / 52' },
+  { cls: 'geo-h3', role: 'h3', spec: '32 / 32' },
+  { cls: 'geo-h4', role: 'h4', spec: '24 / 24' },
+  { cls: 'geo-tab-title', role: 'tab-title', spec: '24 / 32,2 (solo desktop)' },
+  { cls: 'geo-button-text', role: 'button (bold)', spec: '20' },
+  { cls: 'geo-body-huge', role: 'body-huge', spec: '24 / 34' },
+  { cls: 'geo-body-lg', role: 'body-lg', spec: '18 / 26' },
+  { cls: 'geo-body-md', role: 'body-md', spec: '16 / 20' },
+  { cls: 'geo-body-md-bold', role: 'body-md bold', spec: '16 / 22' },
+  { cls: 'geo-body-sm', role: 'body-sm', spec: '14 / 20' },
+  { cls: 'geo-label-lg', role: 'label-lg', spec: '14 / 16' },
+  { cls: 'geo-label-md', role: 'label-md', spec: '12 / 14' },
+];
+
+const spaces = ['4', '8', '12', '16', '18', '20', '24', '32', '36', '48', '64'];
+const radii = ['8', '12', '16', '20', '24', '28', '32', '36', '40', 'pill'];
+const shadows = ['1', '2', '3', '4', '5', '6'];
+const durations = ['fast', 'base', 'slow', 'drop', 'carousel'];
+---
+
+<Base
+  title="Design system"
+  description="Galleria interna dei token e dei componenti di Geos."
+  noindex
+>
+  <input type="checkbox" id="grid-toggle" class="sr-only" />
+  <div class="grid-overlay grid-container" aria-hidden="true">
+    {Array.from({ length: 12 }, () => (
+      <span />
+    ))}
+  </div>
+
+  <Container cols={12} class="ds-page">
+    <header class="ds-header">
+      <h1 class="geo-h2">Design system</h1>
+      <p class="geo-body-lg ds-muted">
+        Token letti dai CSS custom properties di <code>src/styles/tokens.css</code>. Viewport:
+        <strong id="vw">–</strong>.
+      </p>
+      <label for="grid-toggle" class="ds-toggle geo-label-lg-bold">
+        Mostra la griglia
+      </label>
+      <nav aria-label="Indice" class="ds-nav geo-body-sm">
+        <a href="#colori">Colori</a>
+        <a href="#gradienti">Gradienti</a>
+        <a href="#tipografia">Tipografia</a>
+        <a href="#spazi">Spazi, raggi, ombre</a>
+        <a href="#componenti">Componenti</a>
+        <a href="#griglia">Griglia e container</a>
+        <a href="#motion">Motion e focus</a>
+      </nav>
+    </header>
+
+    <section id="colori" class="ds-section">
+      <h2 class="geo-h3">Colori</h2>
+      <p class="geo-body-sm ds-muted">
+        Il bianco del sito è <code>--color-white</code> (#fafafa), mai #fff. Fuori palette, da non
+        usare: #131927, #343330.
+      </p>
+      {colorGroups.map((g) => (
+        <div class="ds-group">
+          <h3 class="geo-h4">{g.name}</h3>
+          <ul class="ds-swatches">
+            {g.tokens.map((t) => (
+              <li class="ds-swatch" data-var={`--color-${t}`}>
+                <span class="ds-chip" style={`background-color: var(--color-${t})`} />
+                <span class="geo-label-lg-bold">{t}</span>
+                <span class="geo-label-md ds-muted js-value" />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <div class="ds-group">
+        <h3 class="geo-h4">Trasparenze (provvisorie)</h3>
+        <ul class="ds-swatches">
+          {alphaTokens.map((t) => (
+            <li class="ds-swatch" data-var={`--color-${t}`}>
+              <span class="ds-chip ds-chip--alpha">
+                <span style={`background-color: var(--color-${t})`} />
+              </span>
+              <span class="geo-label-lg-bold">{t}</span>
+              <span class="geo-label-md ds-muted js-value" />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p class="geo-body-sm ds-muted">
+        Contrasto: bianco su <code>secondary-darker</code> ≈ 2,9:1 e <code>primary-darker</code> su
+        <code>secondary-darker</code> ≈ 4,3:1, entrambi sotto 4,5:1. Per i testi sotto i 24 px usa
+        la parte scura del gradiente o segnala il problema.
+      </p>
+    </section>
+
+    <section id="gradienti" class="ds-section">
+      <h2 class="geo-h3">Gradienti</h2>
+      <ul class="ds-gradients">
+        {gradients.map((g) => (
+          <li>
+            <span class="ds-gradient" style={`background-image: var(--gradient-${g})`} />
+            <span class="geo-label-lg-bold">{g}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="geo-body-sm ds-muted">
+        TODO(geos): <code>blue</code> e <code>inverse-blue</code> sono invertiti rispetto alla
+        descrizione dei pulsanti con icona ("scuro a sinistra → blu a destra"): verificare quale
+        combacia.
+      </p>
+    </section>
+
+    <section id="tipografia" class="ds-section">
+      <h2 class="geo-h3">Tipografia</h2>
+      <p class="geo-body-sm ds-muted">
+        Cabinet Grotesk (titoli) e DM Sans (testo), fluide tra 375 e 1920. I valori mobile sono
+        provvisori (TODO(geos)). Per ogni riga: dimensione / interlinea risolte al viewport attuale
+        e valore desktop di design.
+      </p>
+      <div class="ds-specimens">
+        <p class="ds-specimen-title" style="font-family: var(--font-title)">
+          <span class="geo-h3">Cabinet Grotesk</span>
+        </p>
+        <p class="ds-glyphs" style="font-family: var(--font-title)">
+          ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 àèéìòù € +99%
+        </p>
+        <p class="ds-glyphs" style="font-family: var(--font-title); font-weight: 700">
+          Bold 700 · ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789
+        </p>
+        <p class="ds-specimen-title">
+          <span class="geo-h3" style="font-family: var(--font-text)">
+            DM Sans
+          </span>
+        </p>
+        <p class="ds-glyphs" style="font-family: var(--font-text)">
+          ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 àèéìòù € +99%
+        </p>
+        <p class="ds-glyphs" style="font-family: var(--font-text); font-weight: 700">
+          Bold 700 · ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789
+        </p>
+      </div>
+      <ul class="ds-types">
+        {typeSpecs.map((t) => (
+          <li class="ds-type" data-typo>
+            <p class="geo-label-md ds-muted ds-type-meta">
+              <strong>{t.cls}</strong> · {t.role} · design {t.spec}
+              <span class="js-value" />
+            </p>
+            <p class={`${t.cls} js-sample`}>Creato da agenti immobiliari per agenti immobiliari</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="spazi" class="ds-section">
+      <h2 class="geo-h3">Spaziatura, raggi, ombre</h2>
+      <h3 class="geo-h4">Spaziatura</h3>
+      <ul class="ds-spaces">
+        {spaces.map((s) => (
+          <li data-var={`--space-${s}`}>
+            <span class="ds-space-bar" style={`width: var(--space-${s})`} />
+            <span class="geo-label-lg-bold">space-{s}</span>
+            <span class="geo-label-md ds-muted js-value" />
+          </li>
+        ))}
+      </ul>
+      <h3 class="geo-h4">Raggi</h3>
+      <ul class="ds-swatches">
+        {radii.map((r) => (
+          <li class="ds-swatch" data-var={`--radius-${r}`}>
+            <span class="ds-chip ds-chip--radius" style={`border-radius: var(--radius-${r})`} />
+            <span class="geo-label-lg-bold">radius-{r}</span>
+            <span class="geo-label-md ds-muted js-value" />
+          </li>
+        ))}
+      </ul>
+      <h3 class="geo-h4">Ombre (provvisorie)</h3>
+      <ul class="ds-swatches ds-swatches--shadow">
+        {shadows.map((s) => (
+          <li class="ds-swatch">
+            <span class="ds-chip ds-chip--shadow" style={`box-shadow: var(--shadow-${s})`} />
+            <span class="geo-label-lg-bold">shadow-{s}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="componenti" class="ds-section">
+      <h2 class="geo-h3">Componenti</h2>
+      <p class="geo-body-sm ds-muted">
+        Gli stati sono reali: passa il mouse (hover), tieni premuto (pressed) e naviga con Tab
+        (focus). Disabled è mostrato a parte. L'effetto goccia si vede solo con un puntatore reale e
+        senza riduzione del movimento.
+      </p>
+
+      <h3 class="geo-h4">Button</h3>
+      {buttonVariants.map((b) => (
+        <div class:list={['ds-surface', `ds-surface--${b.surface}`]}>
+          <p class="geo-label-lg-bold">{b.label}</p>
+          <div class="ds-row">
+            <Button variant={b.variant}>Button</Button>
+            <Button variant={b.variant} disabled>
+              Button
+            </Button>
+          </div>
+        </div>
+      ))}
+      <div class="ds-surface ds-surface--light">
+        <p class="geo-label-lg-bold">Con icona (goccia)</p>
+        <div class="ds-row">
+          <Button icon>Button</Button>
+          <Button icon disabled>
+            Button
+          </Button>
+          <Button icon gradient>
+            Button
+          </Button>
+          <Button icon gradient disabled>
+            Button
+          </Button>
+        </div>
+      </div>
+      <div class="ds-surface ds-surface--light">
+        <p class="geo-label-lg-bold">Navbar</p>
+        <div class="ds-row">
+          <Button variant="navbar" href="#demo">
+            Richiedi una Demo
+          </Button>
+          <Button variant="navbar" disabled>
+            Richiedi una Demo
+          </Button>
+        </div>
+      </div>
+
+      <h3 class="geo-h4">Tag, Chip, IconTile, AvatarStack</h3>
+      <div class="ds-surface ds-surface--dark">
+        <div class="ds-row">
+          <Tag>Un'unica piattaforma</Tag>
+          <Chip tone="dark">Setup immediato</Chip>
+          {iconTiles.map((v) => (
+            <IconTile icon="house" variant={v} />
+          ))}
+        </div>
+      </div>
+      <div class="ds-surface ds-surface--light">
+        <div class="ds-row">
+          <Tag variant="tertiary">Professionisti singoli</Tag>
+          <Tag variant="outline">10€ per utente</Tag>
+          <Chip>Zero attività duplicate</Chip>
+          <AvatarStack />
+        </div>
+      </div>
+
+      <h3 class="geo-h4">Card</h3>
+      <div class="ds-cards">
+        {cardVariants.map((v) => (
+          <Card variant={v}>
+            <Tag variant={v === 'tertiary' || v === 'sky' ? 'tertiary' : 'white'}>{v}</Tag>
+            <p class="geo-h4">Titolo della card</p>
+            <p class="geo-body-md">Testo di esempio per verificare padding, raggio e contrasto.</p>
+          </Card>
+        ))}
+      </div>
+
+      <h3 class="geo-h4">SelectPill</h3>
+      <div class="ds-row">
+        <SelectPill
+          id="ds-utenti"
+          label="Numero di utenti"
+          value="3"
+          options={[
+            { value: '3', label: '3 Utenti' },
+            { value: '4', label: '4 Utenti' },
+          ]}
+        />
+        <SelectPill
+          id="ds-utenti-off"
+          label="Numero di utenti"
+          disabled
+          options={[{ value: '3', label: '3 Utenti' }]}
+        />
+      </div>
+
+      <h3 class="geo-h4">Input e Stepper</h3>
+      <div class="ds-fields">
+        <Input id="ds-nome" label="Nome" placeholder="Text" required />
+        <Input
+          id="ds-mail"
+          label="Email"
+          type="email"
+          placeholder="Text"
+          error="Inserisci un indirizzo email valido."
+          value="mario"
+        />
+        <Input id="ds-off" label="Disabilitato" placeholder="Text" disabled />
+        <Stepper id="ds-dim" label="Dimensione Azienda" required />
+        <Stepper id="ds-dim-off" label="Dimensione Azienda (disabilitato)" disabled />
+      </div>
+    </section>
+
+    <section id="griglia" class="ds-section">
+      <h2 class="geo-h3">Griglia e container</h2>
+      <p class="geo-body-sm ds-muted">
+        Desktop (≥ 1024): 12 colonne, margini 32, gutter 20. Mobile: 4 colonne, margini 12 (32 tra
+        768 e 1023), gutter 12. Oltre 1920 il contenuto resta centrato (TODO(geos): da confermare).
+        Usa il pulsante "Mostra la griglia" in alto per sovrapporre le colonne.
+      </p>
+      <p class="geo-body-sm">
+        Container attivi: margine <strong id="g-margin">–</strong>, gutter{' '}
+        <strong id="g-gutter">–</strong>, colonne <strong id="g-cols">–</strong>.
+      </p>
+    </section>
+  </Container>
+
+  <!-- I tre container a tutta larghezza, fuori dal wrapper della pagina, per vederne gli offset. -->
+  <div class="ds-containers">
+    <Container cols={12}>
+      <div class="ds-bar geo-label-lg-bold">
+        container-12 · colonne 1–12 (hero, come funziona, CTA finale)
+      </div>
+    </Container>
+    <Container cols={10}>
+      <div class="ds-bar geo-label-lg-bold">container-10 · colonne 2–11 (form)</div>
+    </Container>
+    <Container cols={8}>
+      <div class="ds-bar geo-label-lg-bold">
+        container-8 · colonne 3–10 (per chi, numeri, tutto il necessario, suite, piani). 1024–1439:
+        colonne 2–11
+      </div>
+    </Container>
+  </div>
+
+  <Container cols={12} class="ds-page">
+    <section id="motion" class="ds-section">
+      <h2 class="geo-h3">Motion e focus</h2>
+      <ul class="ds-swatches">
+        {durations.map((d) => (
+          <li class="ds-swatch" data-var={`--duration-${d}`}>
+            <span class="geo-label-lg-bold">duration-{d}</span>
+            <span class="geo-label-md ds-muted js-value" />
+          </li>
+        ))}
+      </ul>
+      <p class="geo-body-sm ds-muted">
+        Easing <code>--ease-standard</code> e <code>--ease-out</code>. Con{' '}
+        <code>prefers-reduced-motion</code>
+        le transizioni sono istantanee.
+      </p>
+      <p class="geo-body-md">
+        Focus: prova a premere Tab,
+        <a href="#colori" class="ds-link">
+          questo link
+        </a>{' '}
+        mostra il doppio anello.
+      </p>
+    </section>
+  </Container>
+
+  <script>
+    const root = document.documentElement;
+    const rootStyle = getComputedStyle(root);
+
+    document.querySelectorAll<HTMLElement>('[data-var]').forEach((el) => {
+      const out = el.querySelector('.js-value');
+      const v = rootStyle.getPropertyValue(el.dataset.var ?? '').trim();
+      if (out) out.textContent = v;
+    });
+
+    const update = () => {
+      document.querySelectorAll<HTMLElement>('[data-typo]').forEach((el) => {
+        const sample = el.querySelector('.js-sample');
+        const out = el.querySelector('.js-value');
+        if (!sample || !out) return;
+        const cs = getComputedStyle(sample);
+        const round = (s: string) => `${Math.round(parseFloat(s) * 10) / 10}px`;
+        out.textContent = ` · ora ${round(cs.fontSize)} / ${round(cs.lineHeight)} · peso ${cs.fontWeight}`;
+      });
+      const vw = document.getElementById('vw');
+      if (vw) vw.textContent = `${root.clientWidth}px`;
+      const c = getComputedStyle(root);
+      const set = (id: string, v: string) => {
+        const e = document.getElementById(id);
+        if (e) e.textContent = v;
+      };
+      const probe = document.querySelector('.grid-container');
+      if (probe) {
+        const p = getComputedStyle(probe);
+        set('g-margin', p.paddingLeft);
+        set('g-gutter', p.columnGap);
+        set('g-cols', c.getPropertyValue('--cols').trim());
+      }
+    };
+    update();
+    window.addEventListener('resize', update, { passive: true });
+  </script>
+</Base>
+
+<style>
+  .ds-page {
+    padding-block: var(--space-32);
+  }
+  .ds-header {
+    display: grid;
+    gap: var(--space-12);
+    padding-bottom: var(--space-32);
+  }
+  .ds-header h1 {
+    color: var(--color-primary-darker);
+  }
+  .ds-muted {
+    color: var(--color-gray-700);
+  }
+  .ds-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8) var(--space-16);
+  }
+  .ds-nav a,
+  .ds-link {
+    color: var(--color-primary-darker);
+    text-decoration: underline;
+    text-underline-offset: var(--space-4);
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.9em;
+    background-color: var(--color-gray-50);
+    border-radius: var(--radius-12);
+    padding-inline: var(--space-4);
+  }
+  .ds-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-16);
+    padding-block: var(--space-32);
+    border-top: 1px solid var(--color-gray-100);
+    scroll-margin-top: var(--space-16);
+  }
+  .ds-section h2 {
+    color: var(--color-primary-darker);
+  }
+  .ds-group {
+    display: grid;
+    gap: var(--space-12);
+  }
+  .ds-swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: var(--space-16) var(--space-12);
+  }
+  .ds-swatch {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+  }
+  .ds-chip {
+    display: block;
+    height: var(--space-64);
+    border-radius: var(--radius-12);
+    border: 1px solid var(--color-black-10);
+    overflow: hidden;
+  }
+  .ds-chip--alpha {
+    background-image: linear-gradient(to right, var(--color-black) 50%, var(--color-white) 50%);
+  }
+  .ds-chip--alpha > span {
+    display: block;
+    height: 100%;
+  }
+  .ds-chip--radius {
+    background-color: var(--color-tertiary-medium);
+    border-color: var(--color-primary-darker);
+  }
+  .ds-swatches--shadow {
+    gap: var(--space-24) var(--space-16);
+  }
+  .ds-chip--shadow {
+    background-color: var(--color-white);
+    border: 0;
+    overflow: visible;
+  }
+  .ds-gradients {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: var(--space-16);
+  }
+  .ds-gradient {
+    display: block;
+    height: var(--space-64);
+    margin-bottom: var(--space-4);
+    border-radius: var(--radius-20);
+  }
+  .ds-specimens {
+    display: grid;
+    gap: var(--space-8);
+    color: var(--color-primary-darker);
+  }
+  .ds-glyphs {
+    font-size: var(--text-body-huge);
+    line-height: var(--leading-body-huge);
+    overflow-wrap: anywhere;
+  }
+  .ds-types {
+    display: grid;
+    gap: var(--space-24);
+  }
+  .ds-type {
+    display: grid;
+    gap: var(--space-4);
+    padding-bottom: var(--space-16);
+    border-bottom: 1px solid var(--color-gray-100);
+    color: var(--color-primary-darker);
+  }
+  .ds-type-meta {
+    color: var(--color-gray-700);
+  }
+  .ds-spaces {
+    display: grid;
+    gap: var(--space-8);
+  }
+  .ds-spaces li {
+    display: grid;
+    grid-template-columns: var(--space-64) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--space-16);
+    grid-template-areas: 'bar name' 'bar val';
+  }
+  .ds-spaces li > :nth-child(1) {
+    grid-area: bar;
+  }
+  .ds-space-bar {
+    display: block;
+    height: var(--space-24);
+    background-color: var(--color-secondary-darker);
+    border-radius: var(--radius-12);
+  }
+  .ds-containers {
+    display: grid;
+    gap: var(--space-12);
+    padding-block: var(--space-16);
+  }
+  .ds-bar {
+    padding: var(--space-12) var(--space-16);
+    border-radius: var(--radius-12);
+    background-color: var(--color-primary-darker);
+    color: var(--color-white);
+  }
+
+  /* Guida visiva della griglia (solo in questa pagina). */
+  #grid-toggle:focus-visible ~ .ds-page .ds-toggle {
+    outline: var(--focus-ring-width) solid var(--color-primary-darker);
+    outline-offset: var(--focus-ring-gap);
+  }
+  .ds-toggle {
+    display: inline-block;
+    width: fit-content;
+    padding: var(--space-12) var(--space-16);
+    border: 1px solid var(--color-primary-darker);
+    border-radius: var(--radius-12);
+    color: var(--color-primary-darker);
+    cursor: pointer;
+  }
+  :global(body:has(#grid-toggle:checked)) .ds-toggle {
+    background-color: var(--color-primary-darker);
+    color: var(--color-white);
+  }
+  .ds-surface {
+    display: grid;
+    gap: var(--space-12);
+    padding: var(--space-16);
+    border: 1px solid var(--color-gray-100);
+    border-radius: var(--radius-20);
+  }
+  .ds-surface--dark {
+    background-color: var(--color-primary-light);
+    border-color: transparent;
+    color: var(--color-white);
+  }
+  .ds-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-16) var(--space-24);
+  }
+  .ds-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: var(--space-16);
+  }
+  .ds-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: var(--space-18);
+    max-width: 48rem;
+  }
+</style>

@@ -1,0 +1,143 @@
+/*
+ * Font self-hosted (solo woff2, un file variabile per famiglia, sottoinsieme Latin + accenti italiani)
+ * e classi tipografiche semantiche `geo-*`.
+ * Melodrama non si carica: serve solo al logo, che arriva come SVG.
+ */
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('../assets/fonts/cabinet-grotesk-variable.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../assets/fonts/dm-sans-variable.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fallback metrici (Arial) per evitare CLS durante lo swap. Valori misurati sui font reali. */
+@font-face {
+  font-family: 'Cabinet Grotesk Fallback';
+  src: local('Arial');
+  size-adjust: 99.7%;
+  ascent-override: 87.3%;
+  descent-override: 28.1%;
+  line-gap-override: 9%;
+}
+
+@font-face {
+  font-family: 'DM Sans Fallback';
+  src: local('Arial');
+  size-adjust: 99%;
+  ascent-override: 100.2%;
+  descent-override: 31.3%;
+  line-gap-override: 0%;
+}
+
+@layer components {
+  /* Titoli: Cabinet Grotesk Medium 500 (da specifiche Figma). */
+  .geo-huge,
+  .geo-title-huge-tight,
+  .geo-h1,
+  .geo-h2,
+  .geo-h3,
+  .geo-h4,
+  .geo-tab-title {
+    font-family: var(--font-title);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  .geo-huge {
+    font-size: var(--text-huge);
+    line-height: var(--leading-huge);
+  }
+  .geo-title-huge-tight {
+    font-size: var(--text-title-huge-tight);
+    line-height: var(--leading-title-huge-tight);
+  }
+  /* TODO(geos): line-height di h1 e h2 minore del font-size (come da design): verificare a vista. */
+  .geo-h1 {
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+  }
+  .geo-h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-h2);
+  }
+  .geo-h3 {
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+  }
+  .geo-h4 {
+    font-size: var(--text-h4);
+    line-height: var(--leading-h4);
+  }
+  .geo-tab-title {
+    font-weight: 400;
+    font-size: var(--text-tab-title);
+    line-height: var(--leading-tab-title);
+  }
+  .geo-button-text {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: var(--text-button);
+    line-height: var(--leading-button);
+  }
+
+  /* Testo: DM Sans */
+  .geo-body-huge,
+  .geo-body-lg,
+  .geo-body-lg-bold,
+  .geo-body-md,
+  .geo-body-md-bold,
+  .geo-body-sm,
+  .geo-label-lg,
+  .geo-label-lg-bold,
+  .geo-label-md {
+    font-family: var(--font-text);
+    font-weight: 400;
+  }
+  .geo-body-lg-bold,
+  .geo-body-md-bold,
+  .geo-label-lg-bold {
+    font-weight: 700;
+  }
+
+  .geo-body-huge {
+    font-size: var(--text-body-huge);
+    line-height: var(--leading-body-huge);
+  }
+  .geo-body-lg,
+  .geo-body-lg-bold {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+  }
+  .geo-body-md {
+    font-size: var(--text-body-md);
+    line-height: var(--leading-body-md);
+  }
+  /* Bold desktop 16/22 */
+  .geo-body-md-bold {
+    font-size: var(--text-body-md);
+    line-height: calc(var(--leading-body-md) + 0.125rem);
+  }
+  .geo-body-sm {
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-body-sm);
+  }
+  .geo-label-lg,
+  .geo-label-lg-bold {
+    font-size: var(--text-label-lg);
+    line-height: var(--leading-label-lg);
+  }
+  .geo-label-md {
+    font-size: var(--text-label-md);
+    line-height: var(--leading-label-md);
+  }
+}
